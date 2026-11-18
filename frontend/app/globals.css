@@ -332,6 +332,79 @@ body {
     line-height: 1.5;
 }
 
+.sfa-studio-hero {
+    padding: clamp(24px, 5vw, 48px);
+    border: 1px solid #303030;
+    border-radius: 24px;
+    background: radial-gradient(ellipse at top right, #393939, transparent 62%), #181818;
+}
+
+.sfa-studio-kicker {
+    display: block;
+    margin-bottom: 16px;
+    color: #dedede;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+}
+
+.sfa-studio-hero h1 {
+    color: #fff !important;
+    font-size: clamp(28px, 4vw, 48px) !important;
+    line-height: 1.2;
+}
+
+.sfa-studio-hero p {
+    margin-top: 12px;
+    color: #ddd !important;
+}
+
+.sfa-studio-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    color: var(--lp-text-strong);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.sfa-studio-heading > span,
+.sfa-studio-flow > span {
+    color: var(--lp-text-muted);
+    font-size: 12px;
+}
+
+.sfa-studio-flow {
+    margin-bottom: 24px;
+    padding: 12px 16px;
+    border-left: 2px solid var(--lp-border-strong);
+}
+
+.sfa-studio-flow ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    margin-top: 6px;
+}
+
+.sfa-studio-flow li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--lp-text-default);
+    font-size: 13px;
+}
+
+.sfa-studio-flow li > span {
+    display: grid;
+    width: 20px;
+    height: 20px;
+    place-items: center;
+    border: 1px solid var(--lp-border-subtle);
+    border-radius: 50%;
+    font-size: 11px;
+}
+
 .sfa-composer {
     min-height: 188px;
     margin-bottom: 48px !important;
@@ -780,6 +853,23 @@ body {
 
     .sfa-hero-title h1 {
         font-size: 24px !important;
+    }
+
+    .sfa-scenario-picker {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .sfa-scenario-tab {
+        max-width: none;
+    }
+
+    .sfa-scenario-tab-head {
+        flex-wrap: wrap;
+    }
+
+    .sfa-composer-toolbar > div {
+        flex-wrap: wrap;
     }
 
     .sfa-inspiration-grid {

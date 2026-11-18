@@ -18,9 +18,9 @@ import { fetchScenarios, type Scenario } from '@/lib/workflowApi';
 const SCENARIO_STORAGE_KEY = `${brand.storagePrefix}.scenario`;
 
 /* 首页默认文案：场景未声明 ui 字段或场景列表加载失败时使用 */
-const DEFAULT_HERO_TITLE = 'Hi，一起聊聊你的创作想法';
-const DEFAULT_HERO_SUBTITLE = '从一句灵感开始，让 AI 陪你完成整部作品';
-const DEFAULT_PLACEHOLDER = '描述你的想法，输入一段故事、一个画面或一句灵感……';
+const DEFAULT_HERO_TITLE = '从一个想法，开始创作';
+const DEFAULT_HERO_SUBTITLE = '选择制作场景，写下你想表达的内容，再决定是否逐步审阅产物。';
+const DEFAULT_PLACEHOLDER = '写下主题、受众和想要的风格，也可以从下方示例开始。';
 
 function readStoredScenario(): string {
   try {
@@ -387,18 +387,19 @@ export default function HomePage({ onStartProject, onResumeProject, onDeleteSess
       {/* 主区域 - 居中 */}
       <div className="sfa-home-main w-full max-w-6xl px-6 pt-16 pb-8 flex-shrink-0">
         {/* 标题 */}
-        <div className="sfa-hero-title text-center mb-10">
-          <div className="inline-flex items-center gap-2 mb-3">
-            <h1 className="text-2xl font-medium text-white">{selectedScenario?.ui?.hero_title || DEFAULT_HERO_TITLE}</h1>
-          </div>
-          <p className="text-sm text-white/75">
+        <header className="sfa-hero-title sfa-studio-hero">
+          <span className="sfa-studio-kicker">创作工作台</span>
+          <h1>{selectedScenario?.ui?.hero_title || DEFAULT_HERO_TITLE}</h1>
+          <p>
             {selectedScenario?.ui?.hero_subtitle || selectedScenario?.tagline || DEFAULT_HERO_SUBTITLE}
           </p>
-        </div>
+        </header>
 
         {/* 场景选择 */}
-        {scenarios.length > 1 && (
-          <div className="sfa-scenario-picker" role="tablist" aria-label="创作场景">
+        {scenarios.length > 0 && (
+          <section aria-labelledby="sfa-scenario-heading">
+          <h2 id="sfa-scenario-heading" className="sfa-studio-heading"><span>01</span> 选择创作场景</h2>
+          <div className="sfa-scenario-picker" role="group" aria-labelledby="sfa-scenario-heading">
             {scenarios.map(item => {
               const active = item.id === selectedScenarioId;
               const isImage = item.category === 'image';
@@ -406,8 +407,7 @@ export default function HomePage({ onStartProject, onResumeProject, onDeleteSess
                 <button
                   key={item.id}
                   type="button"
-                  role="tab"
-                  aria-selected={active}
+                  aria-pressed={active}
                   onClick={() => handleSelectScenario(item)}
                   className={clsx('sfa-scenario-tab', active && 'sfa-scenario-tab-active')}
                   title={item.description || item.tagline}
@@ -424,17 +424,32 @@ export default function HomePage({ onStartProject, onResumeProject, onDeleteSess
               );
             })}
           </div>
+          </section>
         )}
 
         {/* 输入区域 */}
+        {selectedScenario && selectedScenario.stages.length > 0 && (
+          <div className="sfa-studio-flow">
+            <span>{selectedScenario.name} · 制作步骤</span>
+            <ol aria-label={`${selectedScenario.name}的制作步骤`}>
+              {selectedScenario.stages.map((stage, index) => (
+                <li key={stage.id}>
+                  <span aria-hidden="true">{index + 1}</span>{stage.short_name || stage.name}
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+        <label htmlFor="sfa-creative-brief" className="sfa-studio-heading"><span>02</span> 填写创作需求</label>
         <div className="sfa-composer bg-white rounded-2xl shadow-sm border border-gray-200 p-5 mb-6">
           <textarea
+            id="sfa-creative-brief"
             value={idea}
             onChange={e => setIdea(e.target.value)}
             placeholder={selectedScenario?.ui?.placeholder || DEFAULT_PLACEHOLDER}
             className="sfa-prompt-input w-full bg-transparent text-sm text-gray-800 placeholder-gray-400 resize-none outline-none min-h-[100px]"
             onKeyDown={e => {
-              if (e.key === 'Enter' && !e.shiftKey && (idea.trim() || uploadedFile)) {
+              if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing && canStart) {
                 e.preventDefault();
                 handleStart(false);
               }
@@ -583,7 +598,7 @@ export default function HomePage({ onStartProject, onResumeProject, onDeleteSess
                     : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 )}
               >
-                逐步创作
+                逐步制作
               </button>
               <button
                 onClick={() => handleStart(true)}
@@ -596,7 +611,7 @@ export default function HomePage({ onStartProject, onResumeProject, onDeleteSess
                 )}
                 title={`自动执行全部 ${selectedScenario?.stages.length || ''} 个阶段，无需手动确认`.replace('  ', ' ')}
               >
-                一键生成
+                自动运行
               </button>
             </div>
           </div>
@@ -797,7 +812,7 @@ export default function HomePage({ onStartProject, onResumeProject, onDeleteSess
         {scenarioExamples.length > 0 && (
         <div className="sfa-inspiration mb-10">
           <h3 className="text-sm font-semibold text-gray-900 mb-3">
-            灵感示例
+            从示例开始
           </h3>
           <div className="sfa-inspiration-grid grid grid-cols-2 md:grid-cols-3 gap-2.5">
             {scenarioExamples.map((ex, idx) => (

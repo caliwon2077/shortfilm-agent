@@ -16,6 +16,12 @@
 
 ---
 
+## 创作工作台改版
+
+本分支基于 [hubooooooo/shortfilm-agent](https://github.com/hubooooooo/shortfilm-agent) 改造首页。用户先选场景，再查看该场景的制作步骤，最后填写创作需求。选「逐步制作」可在阶段间审阅产物；选「自动运行」则连续执行当前场景的流程。示例可以直接填入需求框。
+
+查看[项目说明与本地运行指南](docs/project-overview.md)，了解支持的场景、可验证的功能以及模型和部署要求。原作者及衍生项目的署名保留在 [LICENSE](LICENSE)。
+
 ## ✨ 这是什么
 
 ShortFilm Agent 是一个**可二次开发的 AIGC 项目底座**。用户输入一句需求，系统把它拆成一条多阶段的生产流水线，每个阶段的产出都可以**查看、确认、修改、单项重新生成**，人始终在回路里。
@@ -93,7 +99,7 @@ ShortFilm Agent 是一个**可二次开发的 AIGC 项目底座**。用户输入
 ### 环境要求
 
 - Python 3.10+（推荐 3.12，用 [uv](https://docs.astral.sh/uv/) 管理）
-- Node.js 18+ / npm 9+
+- Node.js 20.9+ / npm 9+（Next.js 16 的最低 Node.js 版本为 20.9）
 - ffmpeg（拼接视频片段）
 - 至少一家模型服务商的 API Key（默认配置使用阿里云百炼 DashScope 和火山方舟 Ark）
 
