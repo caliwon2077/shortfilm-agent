@@ -280,7 +280,7 @@ body {
     background: var(--lp-canvas-app);
 }
 
-.sfa-shell header {
+.sfa-shell header:not(.sfa-studio-hero) {
     top: 0;
     right: 0;
     left: var(--app-sidebar-width);
